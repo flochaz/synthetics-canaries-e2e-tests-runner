@@ -225,6 +225,23 @@
         "@typescript-eslint/no-require-imports": "off",
         "import/no-extraneous-dependencies": "off"
       }
+    },
+    {
+      "files": [
+        "**/**Canary**"
+      ],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": [
+              "**/**Canary**"
+            ],
+            "optionalDependencies": false,
+            "peerDependencies": true
+          }
+        ]
+      }
     }
   ]
 }

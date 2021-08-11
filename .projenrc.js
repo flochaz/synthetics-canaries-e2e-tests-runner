@@ -2,18 +2,44 @@ const { AwsCdkConstructLibrary } = require('projen');
 const project = new AwsCdkConstructLibrary({
   author: 'Florian CHAZAL',
   authorAddress: 'chazalf@amazon.com',
-  cdkVersion: '1.95.2',
+  cdkVersion: '1.118.0',
   defaultReleaseBranch: 'main',
   name: 'synthetics-canaries-e2e-tests-runner',
   repositoryUrl: 'https://github.com/chazalf/synthetics-canaries-e2e-tests-runner.git',
 
-  // cdkDependencies: undefined,        /* Which AWS CDK modules (those that start with "@aws-cdk/") does this library require when consumed? */
+  cdkDependencies: [
+    '@aws-cdk/core',
+    '@aws-cdk/aws-synthetics',
+    '@aws-cdk/aws-stepfunctions',
+    '@aws-cdk/aws-stepfunctions-tasks',
+    '@aws-cdk/aws-lambda-nodejs',
+  ],
   // cdkTestDependencies: undefined,    /* AWS CDK modules required for testing. */
-  // deps: [],                          /* Runtime dependencies of this module. */
+  // deps: ['aws-sdk'], /* Runtime dependencies of this module. */
   // description: undefined,            /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],                       /* Build dependencies for this module. */
+  devDeps: ['aws-sdk'], /* Build dependencies for this module. */
   // packageName: undefined,            /* The "name" in package.json. */
   // projectType: ProjectType.UNKNOWN,  /* Which type of project this is (library/app). */
   // release: undefined,                /* Add release management to this project. */
+  // peerDeps: ['aws-sdk'],
+  // bundledDeps: ['aws-sdk'],
 });
+
+project.gitignore.addPatterns('cdk.out');
+
+project.eslint.addOverride({
+  files: ['**/**Canary**'],
+  rules: {
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: ['**/**Canary**'],
+        optionalDependencies: false,
+        peerDependencies: true,
+      },
+    ],
+  },
+});
+
+
 project.synth();
