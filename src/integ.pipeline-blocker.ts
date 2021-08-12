@@ -3,7 +3,6 @@ import * as cdk from '@aws-cdk/core';
 import * as cdkpipeline from '@aws-cdk/pipelines';
 import E2ETestsStep from './e2e-test-step';
 import { E2ETestsCanaries } from './e2e-tests-canaries';
-// import E2ETestsStep from './e2e-test-step';
 
 const mockApp = new cdk.App();
 
@@ -16,6 +15,7 @@ class MyPipelineStack extends cdk.Stack {
     super(scope, id, props);
 
     const pipeline = new cdkpipeline.CodePipeline(this, 'Pipeline', {
+      selfMutation: false,
       synth: new cdkpipeline.ShellStep('Synth', {
         // Use a connection created using the AWS console to authenticate to GitHub
         // Other sources are available.
@@ -23,6 +23,7 @@ class MyPipelineStack extends cdk.Stack {
           connectionArn: 'arn:aws:codestar-connections:eu-west-1:036129959679:connection/c92f72f6-1838-49f7-be70-3cd461dbb227', // Created using the AWS console * });',
         }),
         commands: [
+          'npm install -g aws-cdk',
           'npm install',
           'npm run build',
           'cdk synth --app=./lib/integ.pipeline-blocker.js',
@@ -36,8 +37,11 @@ class MyPipelineStack extends cdk.Stack {
     const myApp = new MyApplication(this, 'Demo', {});
     const demoStage = pipeline.addStage(myApp);
 
-    const e2eTestsCanaries = new E2ETestsCanaries(this, 'E2ETestsCanaries', { endpointUnderTest: 'http://demo.com' });
-    const e2eTestsRunnerStep = new E2ETestsStep(this, e2eTestsCanaries.canaries, 'E2ETestsRunner');
+    const e2eTestsCanaries = new E2ETestsCanaries(this, 'E2ETestsCanaries', { endpointUnderTest: 'demo' });
+    const e2eTestsRunnerStep = new E2ETestsStep('E2ETestsRunner', {
+      scope: this,
+      canaries: e2eTestsCanaries.canaries,
+    });
     demoStage.addPost(e2eTestsRunnerStep);
   }
 }
@@ -124,6 +128,11 @@ class MyApplication extends cdk.Stage {
       findPlayerMockIntegration,
       findPlayerMethodOptions,
     );
+
+    new cdk.CfnOutput(demoAppStack, 'DemoApiUrl', {
+      value: this.demoApi.url,
+      exportName: 'DemoApiUrl',
+    });
   }
 }
 

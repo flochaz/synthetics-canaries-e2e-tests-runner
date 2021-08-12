@@ -6,13 +6,19 @@ import * as cdk from '@aws-cdk/core';
 import * as cdkpipeline from '@aws-cdk/pipelines';
 import { StepFunctionOrchestrator } from './orchestrator';
 
+export interface E2ETestsStepProps {
+
+  canaries: synthetics.Canary[];
+  scope: cdk.Construct;
+}
+
 export default class E2ETestsStep extends cdkpipeline.Step implements cdkpipeline.ICodePipelineActionFactory {
   public readonly stateMachine: sfn.StateMachine;
-  constructor(scope: cdk.Construct, canaries: synthetics.Canary[], id: string) {
+  constructor(id: string, props: E2ETestsStepProps) {
     super(id);
 
-    const e2eTestsRunner = new StepFunctionOrchestrator(scope, 'E2ETEstsRunner', {
-      canaries: canaries,
+    const e2eTestsRunner = new StepFunctionOrchestrator(props.scope, 'E2ETEstsRunner', {
+      canaries: props.canaries,
     });
 
     this.stateMachine = e2eTestsRunner.stateMachine;
