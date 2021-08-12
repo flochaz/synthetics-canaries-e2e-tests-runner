@@ -17,6 +17,7 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-codepipeline-actions',
     '@aws-cdk/aws-codepipeline',
     '@aws-cdk/aws-apigateway',
+    '@aws-cdk/aws-iam',
   ],
   // cdkTestDependencies: undefined,    /* AWS CDK modules required for testing. */
   // deps: ['aws-sdk'], /* Runtime dependencies of this module. */

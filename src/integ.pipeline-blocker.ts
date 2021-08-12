@@ -1,4 +1,4 @@
-import * as synthetics from '@aws-cdk/aws-synthetics';
+import * as apigateway from '@aws-cdk/aws-apigateway';
 import * as cdk from '@aws-cdk/core';
 import * as cdkpipeline from '@aws-cdk/pipelines';
 // import E2ETestsStep from './e2e-test-step';
@@ -21,7 +21,8 @@ class MyPipelineStack extends cdk.Stack {
           connectionArn: 'arn:aws:codestar-connections:eu-west-1:036129959679:connection/c92f72f6-1838-49f7-be70-3cd461dbb227', // Created using the AWS console * });',
         }),
         commands: [
-          'npx projen build',
+          'npm install',
+          'npm run build',
           'cdk synth --app=./lib/integ.pipeline-blocker.js',
         ],
       }),
@@ -47,33 +48,79 @@ class MyPipelineStack extends cdk.Stack {
  * we make sure they are deployed together, or not at all.
  */
 class MyApplication extends cdk.Stage {
-  public readonly canaries: synthetics.Canary[] = [];
+  public readonly demoApi: apigateway.RestApi;
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StageProps) {
     super(scope, id, props);
 
-    const e2eTestsStack = new cdk.Stack(this, 'testing-stack');
+    const demoAppStack = new cdk.Stack(this, 'testing-stack');
+
+    this.demoApi = new apigateway.RestApi(demoAppStack, 'demoAppApi');
+    const mockedResource = this.demoApi.root.addResource('users').addResource('{userId}', {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true,
+      },
+    });
+
+    const findPlayerMockIntegration = new apigateway.MockIntegration({
+      passthroughBehavior: apigateway.PassthroughBehavior.WHEN_NO_TEMPLATES,
+      requestTemplates: {
+        'application/json': `{
+             #if( $input.params('userId') == 999999999)
+                    "statusCode" : 404
+              #else
+                     "statusCode" : 200
+              #end
+          }`,
+      },
+      integrationResponses: [
+        {
+          statusCode: '200',
+          responseTemplates: {
+            'application/json': ` 
+                     { "name": "John",
+                       "id": input.params('playerId'),
+                       "surname": "Doe", 
+                       "sex": "male",
+                       "city": "Hamburg"
+                       "registrationDate": 1598274405
+                     }`,
+          },
+        },
+        {
+          statusCode: '404',
+          selectionPattern: '404',
+          responseTemplates: {
+            'application/json': '{"error": "Player ($input.params(\'userId\')) not found"}',
+          },
+        },
+      ],
+    });
 
 
-    this.canaries.push(new synthetics.Canary(e2eTestsStack, 'Test_1', {
-      canaryName: 'test-1',
-      schedule: synthetics.Schedule.once(),
-      test: synthetics.Test.custom({
-        code: synthetics.Code.fromInline('exports.handler = function(event) { console.log("hi 1"); }'),
-        handler: 'index.handler',
-      }),
-      runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PUPPETEER_3_1,
-    }));
+    const findPlayerMethodOptions = {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseModels: {
+            'application/json': apigateway.Model.EMPTY_MODEL,
+          },
+        },
+        {
+          statusCode: '404',
+          responseModels: {
+            'application/json': apigateway.Model.ERROR_MODEL,
+          },
+        },
+      ],
+    };
 
-    this.canaries.push(new synthetics.Canary(e2eTestsStack, 'Test_2', {
-      canaryName: 'test_2',
-      schedule: synthetics.Schedule.once(),
-      test: synthetics.Test.custom({
-        code: synthetics.Code.fromInline('exports.handler = function(event, ctx, cb) { return cb(null, "hi 2"); }'),
-        handler: 'index.handler',
-      }),
-      runtime: synthetics.Runtime.SYNTHETICS_NODEJS_PUPPETEER_3_1,
-    }));
+    mockedResource.addMethod(
+      'GET',
+      findPlayerMockIntegration,
+      findPlayerMethodOptions,
+    );
   }
 }
 
