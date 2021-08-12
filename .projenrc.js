@@ -16,11 +16,12 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/pipelines',
     '@aws-cdk/aws-codepipeline-actions',
     '@aws-cdk/aws-codepipeline',
+    '@aws-cdk/aws-apigateway',
   ],
   // cdkTestDependencies: undefined,    /* AWS CDK modules required for testing. */
   // deps: ['aws-sdk'], /* Runtime dependencies of this module. */
   // description: undefined,            /* The description is just a string that helps people understand the purpose of the package. */
-  devDeps: ['aws-sdk'], /* Build dependencies for this module. */
+  devDeps: ['aws-sdk', 'esbuild'], /* Build dependencies for this module. */
   // packageName: undefined,            /* The "name" in package.json. */
   // projectType: ProjectType.UNKNOWN,  /* Which type of project this is (library/app). */
   // release: undefined,                /* Add release management to this project. */

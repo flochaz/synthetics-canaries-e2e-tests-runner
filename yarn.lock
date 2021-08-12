@@ -21,7 +21,7 @@
     "@aws-cdk/cx-api" "1.118.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-apigateway@1.118.0":
+"@aws-cdk/aws-apigateway@1.118.0", "@aws-cdk/aws-apigateway@^1.118.0":
   version "1.118.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-apigateway/-/aws-apigateway-1.118.0.tgz#8156c8ec8f1b47c1cd8a7cbacd05d44cebbebbf4"
   integrity sha512-x6EPTg6qP9vhdiIOgFpOwHzGyXRK9lzO/RtnYgFLiirOnsnezMjD05mXCNjSpP+v8PNjPTp473UZ8c9enRwxPg==
@@ -3059,6 +3059,11 @@ es-to-primitive@^1.2.1:
     is-callable "^1.1.4"
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
+
+esbuild@*:
+  version "0.12.19"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.12.19.tgz#ab849766705a5093df5acd8ec2f6ba2159a38a6c"
+  integrity sha512-5NuT1G6THW7l3fsSCDkcPepn24R0XtyPjKoqKHD8LfhqMXzCdz0mrS9HgO6hIhzVT7zt0T+JGbzCqF5AH8hS9w==
 
 escalade@^3.1.1:
   version "3.1.1"

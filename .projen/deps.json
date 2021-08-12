@@ -27,6 +27,10 @@
       "type": "build"
     },
     {
+      "name": "esbuild",
+      "type": "build"
+    },
+    {
       "name": "eslint",
       "type": "build"
     },
@@ -94,6 +98,11 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/aws-apigateway",
+      "version": "^1.118.0",
+      "type": "peer"
+    },
+    {
       "name": "@aws-cdk/aws-codepipeline-actions",
       "version": "^1.118.0",
       "type": "peer"
@@ -137,6 +146,11 @@
       "name": "constructs",
       "version": "^3.2.27",
       "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-apigateway",
+      "version": "^1.118.0",
+      "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-codepipeline-actions",
