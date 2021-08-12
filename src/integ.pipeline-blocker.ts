@@ -42,6 +42,13 @@ class MyPipelineStack extends cdk.Stack {
       scope: this,
       canaries: e2eTestsCanaries.canaries,
     });
+    // demoStage.addPost(new cdkpipeline.ShellStep('HitEndpoint', {
+    //   envFromCfnOutputs: {
+    //     // Make the load balancer address available as $URL inside the commands
+    //     URL: myApp.demoApiUrlCfnOutput,
+    //   },
+    //   commands: ['echo $URL && echo $URL > output.json'],
+    // }));
     demoStage.addPost(e2eTestsRunnerStep);
   }
 }
@@ -56,6 +63,7 @@ class MyPipelineStack extends cdk.Stack {
  */
 class MyApplication extends cdk.Stage {
   public readonly demoApi: apigateway.RestApi;
+  public readonly demoApiUrlCfnOutput: cdk.CfnOutput;
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StageProps) {
     super(scope, id, props);
@@ -129,7 +137,7 @@ class MyApplication extends cdk.Stage {
       findPlayerMethodOptions,
     );
 
-    new cdk.CfnOutput(demoAppStack, 'DemoApiUrl', {
+    this.demoApiUrlCfnOutput = new cdk.CfnOutput(demoAppStack, 'DemoApiUrl', {
       value: this.demoApi.url,
       exportName: 'DemoApiUrl',
     });

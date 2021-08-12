@@ -32,6 +32,7 @@ export default class E2ETestsStep extends cdkpipeline.Step implements cdkpipelin
       stateMachine: this.stateMachine,
       runOrder: options.runOrder,
       actionName: options.actionName,
+      stateMachineInput: codepipeline_actions.StateMachineInput.literal({ endpointUnderTest: '#{Demo-testing-stack.DemoApiUrl}' }),
     }),
     );
 
