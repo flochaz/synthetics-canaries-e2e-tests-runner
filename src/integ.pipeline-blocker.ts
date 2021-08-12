@@ -1,6 +1,8 @@
 import * as apigateway from '@aws-cdk/aws-apigateway';
 import * as cdk from '@aws-cdk/core';
 import * as cdkpipeline from '@aws-cdk/pipelines';
+import E2ETestsStep from './e2e-test-step';
+import { E2ETestsCanaries } from './e2e-tests-canaries';
 // import E2ETestsStep from './e2e-test-step';
 
 const mockApp = new cdk.App();
@@ -32,10 +34,11 @@ class MyPipelineStack extends cdk.Stack {
     // necessary with any account and region (may be different from the
     // pipeline's).
     const myApp = new MyApplication(this, 'Demo', {});
+    const demoStage = pipeline.addStage(myApp);
 
-    // const e2eTestsRunnerStep = new E2ETestsStep(this, myApp.canaries, 'E2ETestsRunner');
-
-    pipeline.addStage(myApp);
+    const e2eTestsCanaries = new E2ETestsCanaries(this, 'E2ETestsCanaries', { endpointUnderTest: 'http://demo.com' });
+    const e2eTestsRunnerStep = new E2ETestsStep(this, e2eTestsCanaries.canaries, 'E2ETestsRunner');
+    demoStage.addPost(e2eTestsRunnerStep);
   }
 }
 

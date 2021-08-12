@@ -259,6 +259,14 @@
         }
       ]
     },
+    "integ:pipeline:synth": {
+      "name": "integ:pipeline:synth",
+      "steps": [
+        {
+          "exec": "cdk synth --app=./lib/integ.pipeline-blocker.js"
+        }
+      ]
+    },
     "release": {
       "name": "release",
       "description": "Prepare a release from \"main\" branch",

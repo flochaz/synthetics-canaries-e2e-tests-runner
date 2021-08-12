@@ -47,4 +47,8 @@ project.eslint.addOverride({
 });
 
 
+project.addTask('integ:pipeline:synth', {
+  exec: 'cdk synth --app=./lib/integ.pipeline-blocker.js',
+});
+
 project.synth();
