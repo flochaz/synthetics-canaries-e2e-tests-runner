@@ -13,6 +13,9 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-stepfunctions',
     '@aws-cdk/aws-stepfunctions-tasks',
     '@aws-cdk/aws-lambda-nodejs',
+    '@aws-cdk/pipelines',
+    '@aws-cdk/aws-codepipeline-actions',
+    '@aws-cdk/aws-codepipeline',
   ],
   // cdkTestDependencies: undefined,    /* AWS CDK modules required for testing. */
   // deps: ['aws-sdk'], /* Runtime dependencies of this module. */

@@ -12,6 +12,8 @@ export interface StepFunctionOrchestratorProps {
 const WAIT_TIME_BETWEEN_CANARY_RUN_CHECK_CALL_IN_SENCONDS = 10;
 
 export class StepFunctionOrchestrator extends cdk.Construct {
+  public readonly stateMachine: sfn.StateMachine;
+
   constructor(scope: cdk.Construct, id: string, props: StepFunctionOrchestratorProps) {
     super(scope, id);
 
@@ -92,10 +94,10 @@ export class StepFunctionOrchestrator extends cdk.Construct {
   
   const definition = parallelCanariesRun.next(checkResultMap);
 
-    new sfn.StateMachine(this, 'StateMachine', {
-      definition,
-      timeout: cdk.Duration.minutes(15), // Matching max canary timeout of 15 minutes
-    });
+  this.stateMachine = new sfn.StateMachine(this, 'E2ETestsRunner', {
+    definition,
+    timeout: cdk.Duration.minutes(15), // Matching max canary timeout of 15 minutes
+  });
 
   }
 }
