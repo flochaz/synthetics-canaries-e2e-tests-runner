@@ -4,6 +4,10 @@
 
 ### StepFunctionOrchestrator <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestrator"></a>
 
+Run and Evaluate AWS Cloudwatch Canaries parallel with AWS Step Functions.
+
+State machine's execution will fail if any of the canaries fail but it will wait for all to run before failing.
+
 #### Initializer <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestrator.Initializer"></a>
 
 ```typescript
@@ -45,6 +49,8 @@ new StepFunctionOrchestrator(scope: Construct, id: string, props: StepFunctionOr
 
 ### E2ETestsStepProps <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps"></a>
 
+Construction properties for a `E2ETestsStep`.
+
 #### Initializer <a name="[object Object].Initializer"></a>
 
 ```typescript
@@ -57,11 +63,18 @@ const e2ETestsStepProps: E2ETestsStepProps = { ... }
 
 - *Type:* [`@aws-cdk/aws-synthetics.Canary`](#@aws-cdk/aws-synthetics.Canary)[]
 
+Array of AWS Cloudwatch canary to execute in this step.
+
 ---
 
 ##### `inputsFromDeployedStack`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps.property.inputsFromDeployedStack"></a>
 
 - *Type:* [`@aws-cdk/core.CfnOutput`](#@aws-cdk/core.CfnOutput)[]
+
+The potential list of CloudFormation outputs exposed by the App under test deployed in the previous step of the code pipeline workflow and that are needed by canaries to run properly.
+
+Those will be pushed to AWS SSM Parameter store to be accessed by the canary at runtime
+  with the following name's schema: <Stack Name>.<Output name>
 
 ---
 
@@ -69,9 +82,13 @@ const e2ETestsStepProps: E2ETestsStepProps = { ... }
 
 - *Type:* [`@aws-cdk/core.Construct`](#@aws-cdk/core.Construct)
 
+Scope in wich to instantiate the state machine (usually your pipeline stack).
+
 ---
 
 ### StepFunctionOrchestratorProps <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestratorProps"></a>
+
+Construction properties for a `StepFunctionOrchestrator`.
 
 #### Initializer <a name="[object Object].Initializer"></a>
 
@@ -84,6 +101,8 @@ const stepFunctionOrchestratorProps: StepFunctionOrchestratorProps = { ... }
 ##### `canaries`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestratorProps.property.canaries"></a>
 
 - *Type:* [`@aws-cdk/aws-synthetics.Canary`](#@aws-cdk/aws-synthetics.Canary)[]
+
+Array of AWS Cloudwatch canary to execute.
 
 ---
 

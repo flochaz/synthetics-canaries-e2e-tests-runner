@@ -13,6 +13,8 @@ This construct parallelise and check the results of end to end tests.
 
 ## Usage
 
+Check [API doc](./API.md) for more details.
+
 ### Integrate to CDK Pipelines
 
 Assuming you have declared your pipeline in your CDK app using cdk pipelines:

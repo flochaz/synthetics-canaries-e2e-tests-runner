@@ -6,12 +6,23 @@ import * as tasks from '@aws-cdk/aws-stepfunctions-tasks';
 import * as synthetics from '@aws-cdk/aws-synthetics';
 import * as cdk from '@aws-cdk/core';
 
+/**
+ * Construction properties for a `StepFunctionOrchestrator`.
+ */
 export interface StepFunctionOrchestratorProps {
+
+  /**
+   * Array of AWS Cloudwatch canary to execute.
+   */
   readonly canaries: synthetics.Canary[];
 }
 
 const WAIT_TIME_BETWEEN_CANARY_RUN_CHECK_CALL_IN_SENCONDS = 10;
 
+/**
+ * Run and Evaluate AWS Cloudwatch Canaries parallel with AWS Step Functions.
+ * State machine's execution will fail if any of the canaries fail but it will wait for all to run before failing.
+ */
 export class StepFunctionOrchestrator extends cdk.Construct {
   public readonly stateMachine: sfn.StateMachine;
 
