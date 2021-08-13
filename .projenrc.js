@@ -5,7 +5,7 @@ const project = new AwsCdkConstructLibrary({
   cdkVersion: '1.118.0',
   defaultReleaseBranch: 'main',
   name: 'synthetics-canaries-e2e-tests-runner',
-  repositoryUrl: 'https://github.com/chazalf/synthetics-canaries-e2e-tests-runner.git',
+  repositoryUrl: 'https://github.com/flochaz/synthetics-canaries-e2e-tests-runner.git',
 
   cdkDependencies: [
     '@aws-cdk/core',

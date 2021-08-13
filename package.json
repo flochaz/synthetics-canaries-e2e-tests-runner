@@ -2,7 +2,7 @@
   "name": "synthetics-canaries-e2e-tests-runner",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chazalf/synthetics-canaries-e2e-tests-runner.git"
+    "url": "https://github.com/flochaz/synthetics-canaries-e2e-tests-runner.git"
   },
   "scripts": {
     "clobber": "npx projen clobber",
