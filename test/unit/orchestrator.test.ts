@@ -2,7 +2,7 @@ import { SynthUtils } from '@aws-cdk/assert';
 import '@aws-cdk/assert/jest';
 import * as synthetics from '@aws-cdk/aws-synthetics';
 import * as cdk from '@aws-cdk/core';
-import { StepFunctionOrchestrator } from '../src';
+import { StepFunctionOrchestrator } from '../../src';
 test('minimal usage', () => {
   // GIVEN
   const stack = new cdk.Stack();

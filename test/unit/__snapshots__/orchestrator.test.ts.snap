@@ -1,0 +1,764 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`minimal usage 1`] = `
+Object {
+  "Parameters": Object {
+    "AssetParameters49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6dArtifactHashE7766949": Object {
+      "Description": "Artifact hash for asset \\"49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6d\\"",
+      "Type": "String",
+    },
+    "AssetParameters49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6dS3Bucket81F354A2": Object {
+      "Description": "S3 bucket for asset \\"49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6d\\"",
+      "Type": "String",
+    },
+    "AssetParameters49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6dS3VersionKey17FB176D": Object {
+      "Description": "S3 key for asset version \\"49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6d\\"",
+      "Type": "String",
+    },
+    "AssetParameters4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14ArtifactHash53B3C852": Object {
+      "Description": "Artifact hash for asset \\"4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14\\"",
+      "Type": "String",
+    },
+    "AssetParameters4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14S3Bucket3FE1F32A": Object {
+      "Description": "S3 bucket for asset \\"4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14\\"",
+      "Type": "String",
+    },
+    "AssetParameters4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14S3VersionKeyFBEDC892": Object {
+      "Description": "S3 key for asset version \\"4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14\\"",
+      "Type": "String",
+    },
+    "AssetParameters789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cffArtifactHashE81D457C": Object {
+      "Description": "Artifact hash for asset \\"789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cff\\"",
+      "Type": "String",
+    },
+    "AssetParameters789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cffS3Bucket5C863A81": Object {
+      "Description": "S3 bucket for asset \\"789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cff\\"",
+      "Type": "String",
+    },
+    "AssetParameters789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cffS3VersionKeyC104E656": Object {
+      "Description": "S3 key for asset version \\"789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cff\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "MyCanary1A94CAFA": Object {
+      "Properties": Object {
+        "ArtifactS3Location": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "s3://",
+              Object {
+                "Ref": "MyCanaryArtifactsBucket89975E6D",
+              },
+            ],
+          ],
+        },
+        "Code": Object {
+          "Handler": "index.handler",
+          "Script": "console.log(\\"Hello World!\\");",
+        },
+        "ExecutionRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "MyCanaryServiceRole593F9DD9",
+            "Arn",
+          ],
+        },
+        "Name": "mycanary",
+        "RuntimeVersion": "syn-nodejs-puppeteer-3.1",
+        "Schedule": Object {
+          "DurationInSeconds": "0",
+          "Expression": "rate(0 minute)",
+        },
+        "StartCanaryAfterCreation": true,
+      },
+      "Type": "AWS::Synthetics::Canary",
+    },
+    "MyCanaryArtifactsBucket89975E6D": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "SSEAlgorithm": "aws:kms",
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "MyCanaryServiceRole593F9DD9": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Policies": Array [
+          Object {
+            "PolicyDocument": Object {
+              "Statement": Array [
+                Object {
+                  "Action": "s3:ListAllMyBuckets",
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                Object {
+                  "Action": Array [
+                    "s3:PutObject",
+                    "s3:GetBucketLocation",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        Object {
+                          "Fn::GetAtt": Array [
+                            "MyCanaryArtifactsBucket89975E6D",
+                            "Arn",
+                          ],
+                        },
+                        "/*",
+                      ],
+                    ],
+                  },
+                },
+                Object {
+                  "Action": "cloudwatch:PutMetricData",
+                  "Condition": Object {
+                    "StringEquals": Object {
+                      "cloudwatch:namespace": "CloudWatchSynthetics",
+                    },
+                  },
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                Object {
+                  "Action": Array [
+                    "logs:CreateLogStream",
+                    "logs:CreateLogGroup",
+                    "logs:PutLogEvents",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": Object {
+                    "Fn::Join": Array [
+                      "",
+                      Array [
+                        "arn:",
+                        Object {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":logs:::*",
+                      ],
+                    ],
+                  },
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "canaryPolicy",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stepFunctionOrchestratorE2ETestsRunner417F497C": Object {
+      "DependsOn": Array [
+        "stepFunctionOrchestratorE2ETestsRunnerRoleDefaultPolicy267BF1ED",
+        "stepFunctionOrchestratorE2ETestsRunnerRole6F118857",
+      ],
+      "Properties": Object {
+        "DefinitionString": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "{\\"StartAt\\":\\"Set tests inputs parameters\\",\\"States\\":{\\"Set tests inputs parameters\\":{\\"Next\\":\\"parallel\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Type\\":\\"Task\\",\\"Resource\\":\\"arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::lambda:invoke\\",\\"Parameters\\":{\\"FunctionName\\":\\"",
+              Object {
+                "Fn::GetAtt": Array [
+                  "stepFunctionOrchestratorsetCanaryTestsSSMParameters6DDE42E4",
+                  "Arn",
+                ],
+              },
+              "\\",\\"Payload\\":{\\"inputVariables.$\\":\\"$\\"}}},\\"parallel\\":{\\"Type\\":\\"Parallel\\",\\"Next\\":\\"checkResults\\",\\"Branches\\":[{\\"StartAt\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Start (0)\\",\\"States\\":{\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Start (0)\\":{\\"Next\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Wait 10s (0)\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Type\\":\\"Task\\",\\"Resource\\":\\"arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::lambda:invoke\\",\\"Parameters\\":{\\"FunctionName\\":\\"",
+              Object {
+                "Fn::GetAtt": Array [
+                  "stepFunctionOrchestratorstartCanaryF0F8EDC8",
+                  "Arn",
+                ],
+              },
+              "\\",\\"Payload\\":{\\"canaryName\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              "\\",\\"inputVariables.$\\":\\"$\\"}}},\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Wait 10s (0)\\":{\\"Type\\":\\"Wait\\",\\"Seconds\\":10,\\"Next\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Get Status (0)\\"},\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Get Status (0)\\":{\\"Next\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Canary  Passed ? (0)\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Catch\\":[{\\"ErrorEquals\\":[\\"States.ALL\\"],\\"ResultPath\\":\\"$.State\\",\\"Next\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Silent fail (0)\\"}],\\"Type\\":\\"Task\\",\\"Comment\\":\\"https://",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".console.aws.amazon.com/cloudwatch/home?region=",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "#synthetics:canary/detail/",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              "\\",\\"OutputPath\\":\\"$.Payload\\",\\"Resource\\":\\"arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::lambda:invoke\\",\\"Parameters\\":{\\"FunctionName\\":\\"",
+              Object {
+                "Fn::GetAtt": Array [
+                  "stepFunctionOrchestratorcheckCanary6F2AAE98",
+                  "Arn",
+                ],
+              },
+              "\\",\\"Payload\\":{\\"canaryName\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              "\\"}}},\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Canary  Passed ? (0)\\":{\\"Type\\":\\"Choice\\",\\"Choices\\":[{\\"Variable\\":\\"$.State\\",\\"StringEquals\\":\\"PASSED\\",\\"Next\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Canary 0 run Passed\\"}],\\"Default\\":\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Wait 10s (0)\\"},\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Canary 0 run Passed\\":{\\"Type\\":\\"Pass\\",\\"Comment\\":\\"https://",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".console.aws.amazon.com/cloudwatch/home?region=",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "#synthetics:canary/detail/",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              "\\",\\"End\\":true},\\"",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              " - Silent fail (0)\\":{\\"Type\\":\\"Pass\\",\\"Comment\\":\\"https://",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".console.aws.amazon.com/cloudwatch/home?region=",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "#synthetics:canary/detail/",
+              Object {
+                "Ref": "MyCanary1A94CAFA",
+              },
+              "\\",\\"End\\":true}}}]},\\"checkResults\\":{\\"Type\\":\\"Map\\",\\"End\\":true,\\"Iterator\\":{\\"StartAt\\":\\"Double check result\\",\\"States\\":{\\"Double check result\\":{\\"Type\\":\\"Choice\\",\\"Choices\\":[{\\"Variable\\":\\"$.State\\",\\"StringEquals\\":\\"PASSED\\",\\"Next\\":\\"Pass\\"}],\\"Default\\":\\"Fail\\"},\\"Fail\\":{\\"Type\\":\\"Fail\\"},\\"Pass\\":{\\"Type\\":\\"Pass\\",\\"End\\":true}}}}},\\"TimeoutSeconds\\":900}",
+            ],
+          ],
+        },
+        "RoleArn": Object {
+          "Fn::GetAtt": Array [
+            "stepFunctionOrchestratorE2ETestsRunnerRole6F118857",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "stepFunctionOrchestratorE2ETestsRunnerRole6F118857": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "states.",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ".amazonaws.com",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stepFunctionOrchestratorE2ETestsRunnerRoleDefaultPolicy267BF1ED": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stepFunctionOrchestratorsetCanaryTestsSSMParameters6DDE42E4",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stepFunctionOrchestratorstartCanaryF0F8EDC8",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stepFunctionOrchestratorcheckCanary6F2AAE98",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stepFunctionOrchestratorE2ETestsRunnerRoleDefaultPolicy267BF1ED",
+        "Roles": Array [
+          Object {
+            "Ref": "stepFunctionOrchestratorE2ETestsRunnerRole6F118857",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stepFunctionOrchestratorallowSSMGetParameters07C0D75AA": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stepFunctionOrchestratorallowSSMGetParameters07C0D75AA",
+        "Roles": Array [
+          Object {
+            "Ref": "MyCanaryServiceRole593F9DD9",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stepFunctionOrchestratorcheckCanary6F2AAE98": Object {
+      "DependsOn": Array [
+        "stepFunctionOrchestratorcheckCanaryServiceRoleDefaultPolicyC45E0816",
+        "stepFunctionOrchestratorcheckCanaryServiceRole4593C5FC",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6dS3Bucket81F354A2",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6dS3VersionKey17FB176D",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters49cd87fb06607303bf223aa06c1cef28acff95117850c08947a62d8257902d6dS3VersionKey17FB176D",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "stepFunctionOrchestratorcheckCanaryServiceRole4593C5FC",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "stepFunctionOrchestratorcheckCanaryServiceRole4593C5FC": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stepFunctionOrchestratorcheckCanaryServiceRoleDefaultPolicyC45E0816": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "synthetics:GetCanaryRuns",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stepFunctionOrchestratorcheckCanaryServiceRoleDefaultPolicyC45E0816",
+        "Roles": Array [
+          Object {
+            "Ref": "stepFunctionOrchestratorcheckCanaryServiceRole4593C5FC",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stepFunctionOrchestratorsetCanaryTestsSSMParameters6DDE42E4": Object {
+      "DependsOn": Array [
+        "stepFunctionOrchestratorsetCanaryTestsSSMParametersServiceRoleDefaultPolicy4167EC2D",
+        "stepFunctionOrchestratorsetCanaryTestsSSMParametersServiceRoleC40131EA",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cffS3Bucket5C863A81",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cffS3VersionKeyC104E656",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters789da913a7b35f1302b7080846f288dca770706865ebd15684c0cc86c7423cffS3VersionKeyC104E656",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "stepFunctionOrchestratorsetCanaryTestsSSMParametersServiceRoleC40131EA",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "stepFunctionOrchestratorsetCanaryTestsSSMParametersServiceRoleC40131EA": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stepFunctionOrchestratorsetCanaryTestsSSMParametersServiceRoleDefaultPolicy4167EC2D": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stepFunctionOrchestratorsetCanaryTestsSSMParametersServiceRoleDefaultPolicy4167EC2D",
+        "Roles": Array [
+          Object {
+            "Ref": "stepFunctionOrchestratorsetCanaryTestsSSMParametersServiceRoleC40131EA",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stepFunctionOrchestratorstartCanaryF0F8EDC8": Object {
+      "DependsOn": Array [
+        "stepFunctionOrchestratorstartCanaryServiceRoleDefaultPolicyB1AB8CFB",
+        "stepFunctionOrchestratorstartCanaryServiceRole34FE2D90",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14S3Bucket3FE1F32A",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14S3VersionKeyFBEDC892",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters4fbf7f859be2f782b1c5783d8743b3da44d02fd2f37ae33aa0826d9790b5dd14S3VersionKeyFBEDC892",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "stepFunctionOrchestratorstartCanaryServiceRole34FE2D90",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "stepFunctionOrchestratorstartCanaryServiceRole34FE2D90": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stepFunctionOrchestratorstartCanaryServiceRoleDefaultPolicyB1AB8CFB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "synthetics:StartCanary",
+                "synthetics:UpdateCanary",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stepFunctionOrchestratorstartCanaryServiceRoleDefaultPolicyB1AB8CFB",
+        "Roles": Array [
+          Object {
+            "Ref": "stepFunctionOrchestratorstartCanaryServiceRole34FE2D90",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+}
+`;

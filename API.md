@@ -32,6 +32,13 @@ new StepFunctionOrchestrator(scope: Construct, id: string, props: StepFunctionOr
 
 
 
+#### Properties <a name="Properties"></a>
+
+##### `stateMachine`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestrator.property.stateMachine"></a>
+
+- *Type:* [`@aws-cdk/aws-stepfunctions.StateMachine`](#@aws-cdk/aws-stepfunctions.StateMachine)
+
+---
 
 
 ## Structs <a name="Structs"></a>

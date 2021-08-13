@@ -27,6 +27,10 @@
       "type": "build"
     },
     {
+      "name": "esbuild",
+      "type": "build"
+    },
+    {
       "name": "eslint",
       "type": "build"
     },
@@ -94,6 +98,31 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/aws-apigateway",
+      "version": "^1.118.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-codepipeline-actions",
+      "version": "^1.118.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-codepipeline",
+      "version": "^1.118.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-datapipeline",
+      "version": "^1.118.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-iam",
+      "version": "^1.118.0",
+      "type": "peer"
+    },
+    {
       "name": "@aws-cdk/aws-lambda-nodejs",
       "version": "^1.118.0",
       "type": "peer"
@@ -115,6 +144,11 @@
     },
     {
       "name": "@aws-cdk/core",
+      "version": "^1.118.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/pipelines",
       "version": "^1.118.0",
       "type": "peer"
     },
@@ -124,6 +158,31 @@
       "type": "peer"
     },
     {
+      "name": "@aws-cdk/aws-apigateway",
+      "version": "^1.118.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-codepipeline-actions",
+      "version": "^1.118.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-codepipeline",
+      "version": "^1.118.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-datapipeline",
+      "version": "^1.118.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-iam",
+      "version": "^1.118.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/aws-lambda-nodejs",
       "version": "^1.118.0",
       "type": "runtime"
@@ -145,6 +204,11 @@
     },
     {
       "name": "@aws-cdk/core",
+      "version": "^1.118.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/pipelines",
       "version": "^1.118.0",
       "type": "runtime"
     }

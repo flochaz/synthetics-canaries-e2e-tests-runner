@@ -24,6 +24,7 @@
     "compat": "npx projen compat",
     "publish:npm": "npx projen publish:npm",
     "docgen": "npx projen docgen",
+    "integ:pipeline:synth": "npx projen integ:pipeline:synth",
     "release": "npx projen release",
     "projen": "npx projen"
   },
@@ -38,7 +39,8 @@
     "@types/node": "^10.17.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
-    "aws-sdk": "^2.965.0",
+    "aws-sdk": "^2.967.0",
+    "esbuild": "^0.12.19",
     "eslint": "^7.32.0",
     "eslint-import-resolver-node": "^0.3.5",
     "eslint-import-resolver-typescript": "^2.4.0",
@@ -57,19 +59,31 @@
     "typescript": "^4.3.5"
   },
   "peerDependencies": {
+    "@aws-cdk/aws-apigateway": "^1.118.0",
+    "@aws-cdk/aws-codepipeline": "^1.118.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.118.0",
+    "@aws-cdk/aws-datapipeline": "^1.118.0",
+    "@aws-cdk/aws-iam": "^1.118.0",
     "@aws-cdk/aws-lambda-nodejs": "^1.118.0",
     "@aws-cdk/aws-stepfunctions": "^1.118.0",
     "@aws-cdk/aws-stepfunctions-tasks": "^1.118.0",
     "@aws-cdk/aws-synthetics": "^1.118.0",
     "@aws-cdk/core": "^1.118.0",
+    "@aws-cdk/pipelines": "^1.118.0",
     "constructs": "^3.2.27"
   },
   "dependencies": {
+    "@aws-cdk/aws-apigateway": "^1.118.0",
+    "@aws-cdk/aws-codepipeline": "^1.118.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.118.0",
+    "@aws-cdk/aws-datapipeline": "^1.118.0",
+    "@aws-cdk/aws-iam": "^1.118.0",
     "@aws-cdk/aws-lambda-nodejs": "^1.118.0",
     "@aws-cdk/aws-stepfunctions": "^1.118.0",
     "@aws-cdk/aws-stepfunctions-tasks": "^1.118.0",
     "@aws-cdk/aws-synthetics": "^1.118.0",
-    "@aws-cdk/core": "^1.118.0"
+    "@aws-cdk/core": "^1.118.0",
+    "@aws-cdk/pipelines": "^1.118.0"
   },
   "bundledDependencies": [],
   "keywords": [
