@@ -1,10 +1,7 @@
 # CDK End to End (E2E) tests runner
 
 > The APIs of higher level constructs in this module are experimental and under active development.
-> They are subject to non-backward compatible changes or removal in any future version. These are
-> not subject to the [Semantic Versioning](https://semver.org/) model and breaking changes will be
-> announced in the release notes. This means that while you may use them, you may need to update
-> your source code when upgrading to a newer version of this package.
+> They are subject to non-backward compatible changes or removal in any future version.
 
 ## Overview
 
@@ -77,6 +74,16 @@ then you can:
    }));
    ```
 
+1. Commit and deploy your pipeline
+
+1. Check your pipeline for the e2e test step 
+![pipeline](doc/pipeline.png)
+
+1. Check the step function execution
+
+![sfn](doc/integ.pipeline-blocker-sfn.png)
+
+Check `src/integrationTests` for a full example.
 
 ### Integrate to your stack
 
