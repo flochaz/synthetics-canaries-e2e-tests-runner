@@ -263,7 +263,15 @@
       "name": "integ:pipeline:synth",
       "steps": [
         {
-          "exec": "cdk synth --app=./lib/integ.pipeline-blocker.js"
+          "exec": "cdk synth --app=./lib/integrationTests/integ.pipeline-blocker.js"
+        }
+      ]
+    },
+    "integ:pipeline:deploy": {
+      "name": "integ:pipeline:deploy",
+      "steps": [
+        {
+          "exec": "cdk deploy --app=./lib/integrationTests/integ.pipeline-blocker.js"
         }
       ]
     },

@@ -25,6 +25,7 @@
     "publish:npm": "npx projen publish:npm",
     "docgen": "npx projen docgen",
     "integ:pipeline:synth": "npx projen integ:pipeline:synth",
+    "integ:pipeline:deploy": "npx projen integ:pipeline:deploy",
     "release": "npx projen release",
     "projen": "npx projen"
   },

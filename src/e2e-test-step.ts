@@ -8,9 +8,9 @@ import { StepFunctionOrchestrator } from './orchestrator';
 
 export interface E2ETestsStepProps {
 
-  canaries: synthetics.Canary[];
-  scope: cdk.Construct;
-  inputsFromDeployedStack: cdk.CfnOutput[];
+  readonly canaries: synthetics.Canary[];
+  readonly scope: cdk.Construct;
+  readonly inputsFromDeployedStack: cdk.CfnOutput[];
 }
 
 export default class E2ETestsStep extends cdkpipeline.Step implements cdkpipeline.ICodePipelineActionFactory {

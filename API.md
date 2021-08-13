@@ -43,6 +43,34 @@ new StepFunctionOrchestrator(scope: Construct, id: string, props: StepFunctionOr
 
 ## Structs <a name="Structs"></a>
 
+### E2ETestsStepProps <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps"></a>
+
+#### Initializer <a name="[object Object].Initializer"></a>
+
+```typescript
+import { E2ETestsStepProps } from 'synthetics-canaries-e2e-tests-runner'
+
+const e2ETestsStepProps: E2ETestsStepProps = { ... }
+```
+
+##### `canaries`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps.property.canaries"></a>
+
+- *Type:* [`@aws-cdk/aws-synthetics.Canary`](#@aws-cdk/aws-synthetics.Canary)[]
+
+---
+
+##### `inputsFromDeployedStack`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps.property.inputsFromDeployedStack"></a>
+
+- *Type:* [`@aws-cdk/core.CfnOutput`](#@aws-cdk/core.CfnOutput)[]
+
+---
+
+##### `scope`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps.property.scope"></a>
+
+- *Type:* [`@aws-cdk/core.Construct`](#@aws-cdk/core.Construct)
+
+---
+
 ### StepFunctionOrchestratorProps <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestratorProps"></a>
 
 #### Initializer <a name="[object Object].Initializer"></a>
