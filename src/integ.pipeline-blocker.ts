@@ -3,7 +3,6 @@ import * as cdk from '@aws-cdk/core';
 import * as cdkpipeline from '@aws-cdk/pipelines';
 import E2ETestsStep from './e2e-test-step';
 import { E2ETestsCanaries } from './e2e-tests-canaries';
-
 const mockApp = new cdk.App();
 
 
@@ -20,7 +19,7 @@ class MyPipelineStack extends cdk.Stack {
         // Use a connection created using the AWS console to authenticate to GitHub
         // Other sources are available.
         input: cdkpipeline.CodePipelineSource.connection('flochaz/synthetics-canaries-e2e-tests-runner', 'test', {
-          connectionArn: 'arn:aws:codestar-connections:eu-west-1:036129959679:connection/c92f72f6-1838-49f7-be70-3cd461dbb227', // Created using the AWS console * });',
+          connectionArn: 'arn:aws:codestar-connections:eu-west-1:036129959679:connection/c92f72f6-1838-49f7-be70-3cd461dbb227', // Created using the AWS console
         }),
         commands: [
           'npm install -g aws-cdk',
@@ -37,19 +36,21 @@ class MyPipelineStack extends cdk.Stack {
     const myApp = new MyApplication(this, 'Demo', {});
     const demoStage = pipeline.addStage(myApp);
 
-    const e2eTestsCanaries = new E2ETestsCanaries(this, 'E2ETestsCanaries', { endpointUnderTest: 'demo' });
+    const e2eTestsCanaries = new E2ETestsCanaries(this, 'E2ETestsCanaries');
     const e2eTestsRunnerStep = new E2ETestsStep('E2ETestsRunner', {
       scope: this,
       canaries: e2eTestsCanaries.canaries,
+      inputsFromDeployedStack: [myApp.demoApiUrlCfnOutput],
     });
-    // demoStage.addPost(new cdkpipeline.ShellStep('HitEndpoint', {
-    //   envFromCfnOutputs: {
-    //     // Make the load balancer address available as $URL inside the commands
-    //     URL: myApp.demoApiUrlCfnOutput,
-    //   },
-    //   commands: ['echo $URL && echo $URL > output.json'],
-    // }));
+    demoStage.addPost(new cdkpipeline.ShellStep('Force namespace setup', {
+      envFromCfnOutputs: {
+        // Make the load balancer address available as $URL inside the commands
+        URL: myApp.demoApiUrlCfnOutput,
+      },
+      commands: ['echo "CDK issue workaround"'],
+    }));
     demoStage.addPost(e2eTestsRunnerStep);
+
   }
 }
 

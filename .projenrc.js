@@ -18,6 +18,7 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-codepipeline',
     '@aws-cdk/aws-apigateway',
     '@aws-cdk/aws-iam',
+    '@aws-cdk/aws-datapipeline',
   ],
   // cdkTestDependencies: undefined,    /* AWS CDK modules required for testing. */
   // deps: ['aws-sdk'], /* Runtime dependencies of this module. */
@@ -28,6 +29,11 @@ const project = new AwsCdkConstructLibrary({
   // release: undefined,                /* Add release management to this project. */
   // peerDeps: ['aws-sdk'],
   // bundledDeps: ['aws-sdk'],
+  // tsconfig: {
+  //   compilerOptions: {
+  //     esModuleInterop: true,
+  //   },
+  // },
 });
 
 project.gitignore.addPatterns('cdk.out');

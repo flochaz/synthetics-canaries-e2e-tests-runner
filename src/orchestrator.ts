@@ -1,4 +1,5 @@
 import { PolicyStatement } from '@aws-cdk/aws-iam';
+import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda-nodejs';
 import * as sfn from '@aws-cdk/aws-stepfunctions';
 import * as tasks from '@aws-cdk/aws-stepfunctions-tasks';
@@ -17,21 +18,33 @@ export class StepFunctionOrchestrator extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string, props: StepFunctionOrchestratorProps) {
     super(scope, id);
 
+    const setTestsSSMParametersLambda = new lambda.NodejsFunction(this, 'setCanaryTestsSSMParameters');
+
     const startCanaryLambda = new lambda.NodejsFunction(this, 'startCanary');
     const getCanaryRunStatusLambda = new lambda.NodejsFunction(this, 'checkCanary');
 
-    startCanaryLambda.addToRolePolicy(new PolicyStatement({ resources: ['*'], actions: ['synthetics:StartCanary'] }));
+    setTestsSSMParametersLambda.addToRolePolicy(new PolicyStatement({ resources: ['*'], actions: ['ssm:PutParameter'] }));
+    startCanaryLambda.addToRolePolicy(new PolicyStatement({ resources: ['*'], actions: ['synthetics:StartCanary', 'synthetics:UpdateCanary'] }));
     getCanaryRunStatusLambda.addToRolePolicy(new PolicyStatement({ resources: ['*'], actions: ['synthetics:GetCanaryRuns'] }));
+
+    const setTestsSSMParametersTask = new tasks.LambdaInvoke(this, 'Set tests inputs parameters', {
+      payload: sfn.TaskInput.fromObject({
+        'inputVariables.$': '$',
+      }),
+      lambdaFunction: setTestsSSMParametersLambda,
+    });
 
     const parallelCanariesRun = new sfn.Parallel(this, 'parallel');
     for (const canaryIndex in props.canaries) {
       const canary = props.canaries[canaryIndex];
+      canary.role.attachInlinePolicy(new iam.Policy(this, `allowSSMGetParameters-${canaryIndex}`, { statements: [new iam.PolicyStatement({ resources: ['*'], actions: ['ssm:GetParameter'] })] }));
       const cfnCanary = canary.node.defaultChild as synthetics.CfnCanary;
       cfnCanary.addPropertyOverride('Schedule.Expression', 'rate(0 minute)');
 
       const startCanaryTask = new tasks.LambdaInvoke(this, `Start (${canaryIndex})`, {
         payload: sfn.TaskInput.fromObject({
-          canaryName: canary.canaryName,
+          'canaryName': canary.canaryName,
+          'inputVariables.$': '$',
         }),
         lambdaFunction: startCanaryLambda,
       });
@@ -45,6 +58,7 @@ export class StepFunctionOrchestrator extends cdk.Construct {
       // Return the latest Canary run Status
       // @see https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRunStatus.html
       const getStatus = new tasks.LambdaInvoke(this, `Get Status (${canaryIndex})`, {
+        comment: `https://${cdk.Stack.of(this).region}.console.aws.amazon.com/cloudwatch/home?region=${cdk.Stack.of(this).region}#synthetics:canary/detail/${canary.canaryName}`,
         payload: sfn.TaskInput.fromObject({
           canaryName: canary.canaryName,
         }),
@@ -54,12 +68,14 @@ export class StepFunctionOrchestrator extends cdk.Construct {
       getStatus.addPrefix(`${canary.canaryName} - `);
 
       const canaryRunFailed = new sfn.Pass(this, `Silent fail (${canaryIndex})`, {
-        comment: '$.StateReason',
+        comment: `https://${cdk.Stack.of(this).region}.console.aws.amazon.com/cloudwatch/home?region=${cdk.Stack.of(this).region}#synthetics:canary/detail/${canary.canaryName}`,
       });
       canaryRunFailed.addPrefix(`${canary.canaryName} - `);
       getStatus.addCatch(canaryRunFailed, { errors: ['States.ALL'], resultPath: '$.State' });
 
-      const canaryRunPassed = new sfn.Pass(this, `Canary ${canaryIndex} run Passed`);
+      const canaryRunPassed = new sfn.Pass(this, `Canary ${canaryIndex} run Passed`, {
+        comment: `https://${cdk.Stack.of(this).region}.console.aws.amazon.com/cloudwatch/home?region=${cdk.Stack.of(this).region}#synthetics:canary/detail/${canary.canaryName}`,
+      });
       canaryRunPassed.addPrefix(`${canary.canaryName} - `);
       // TODO: add link to canary https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#synthetics:canary/detail/test-1
 
@@ -92,7 +108,7 @@ export class StepFunctionOrchestrator extends cdk.Construct {
     const checkResultMap = new sfn.Map(this, 'checkResults');
     checkResultMap.iterator(checkResult);
 
-    const definition = parallelCanariesRun.next(checkResultMap);
+    const definition = setTestsSSMParametersTask.next(parallelCanariesRun).next(checkResultMap);
 
     this.stateMachine = new sfn.StateMachine(this, 'E2ETestsRunner', {
       definition,
