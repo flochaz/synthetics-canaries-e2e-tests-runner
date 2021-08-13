@@ -24,6 +24,7 @@
     },
     {
       "name": "aws-sdk",
+      "version": "2.967.0",
       "type": "build"
     },
     {

@@ -25,7 +25,7 @@ const project = new AwsCdkConstructLibrary({
   // cdkTestDependencies: undefined,    /* AWS CDK modules required for testing. */
   // deps: ['aws-sdk'], /* Runtime dependencies of this module. */
   // description: undefined,            /* The description is just a string that helps people understand the purpose of the package. */
-  devDeps: ['aws-sdk', 'esbuild'], /* Build dependencies for this module. */
+  devDeps: ['aws-sdk@2.967.0', 'esbuild'] /* Build dependencies for this module. */,
   // packageName: undefined,            /* The "name" in package.json. */
   // projectType: ProjectType.UNKNOWN,  /* Which type of project this is (library/app). */
   // release: undefined,                /* Add release management to this project. */
@@ -36,6 +36,7 @@ const project = new AwsCdkConstructLibrary({
   //     esModuleInterop: true,
   //   },
   // },
+  keywords: ['stepFunctions', 'step-functions', 'canary', 'e2e', 'synthetics canary', 'cloudwatch synthetics'],
 });
 
 project.gitignore.addPatterns('cdk.out');
@@ -53,7 +54,6 @@ project.eslint.addOverride({
     ],
   },
 });
-
 
 project.addTask('integ:pipeline:synth', {
   exec: 'cdk synth --app=./lib/integrationTests/integ.pipeline-blocker.js',

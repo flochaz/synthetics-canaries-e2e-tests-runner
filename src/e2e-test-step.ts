@@ -6,13 +6,34 @@ import * as cdk from '@aws-cdk/core';
 import * as cdkpipeline from '@aws-cdk/pipelines';
 import { StepFunctionOrchestrator } from './orchestrator';
 
+/**
+ * Construction properties for a `E2ETestsStep`.
+ */
 export interface E2ETestsStepProps {
 
+  /**
+   * Array of AWS Cloudwatch canary to execute in this step.
+   */
   readonly canaries: synthetics.Canary[];
+
+  /**
+   * Scope in wich to instantiate the state machine (usually your pipeline stack).
+   */
   readonly scope: cdk.Construct;
+
+  /**
+   * The potential list of CloudFormation outputs exposed by
+   * the App under test deployed in the previous step of the code pipeline workflow
+   * and that are needed by canaries to run properly.
+   * Those will be pushed to AWS SSM Parameter store to be accessed by the canary at runtime
+   *  with the following name's schema: <Stack Name>.<Output name>
+   */
   readonly inputsFromDeployedStack: cdk.CfnOutput[];
 }
 
+/**
+ * Run AWS Cloudwatch Canaries end to end tests in parallel in the pipeline
+ */
 export default class E2ETestsStep extends cdkpipeline.Step implements cdkpipeline.ICodePipelineActionFactory {
   public readonly stateMachine: sfn.StateMachine;
   public readonly inputsFromDeployedStack: any[] = [];
