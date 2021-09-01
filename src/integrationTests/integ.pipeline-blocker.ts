@@ -1,7 +1,7 @@
 import * as apigateway from '@aws-cdk/aws-apigateway';
 import * as cdk from '@aws-cdk/core';
 import * as cdkpipeline from '@aws-cdk/pipelines';
-import E2ETestsStep from '../e2e-test-step';
+import { E2ETestsStep } from '../';
 import { E2ETestsCanaries } from './e2e-tests-canaries';
 const mockApp = new cdk.App();
 
@@ -50,7 +50,7 @@ class MyPipelineStack extends cdk.Stack {
         // Make the load balancer address available as $URL inside the commands
         URL: myApp.demoApiUrlCfnOutput,
       },
-      commands: ['echo "CDK issue workaround"'],
+      commands: ['echo "CDK issue #16036 workaround"'],
     }));
   }
 }

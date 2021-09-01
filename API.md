@@ -106,5 +106,68 @@ Array of AWS Cloudwatch canary to execute.
 
 ---
 
+## Classes <a name="Classes"></a>
+
+### E2ETestsStep <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep"></a>
+
+- *Implements:* [`@aws-cdk/pipelines.ICodePipelineActionFactory`](#@aws-cdk/pipelines.ICodePipelineActionFactory)
+
+Run AWS Cloudwatch Canaries end to end tests in parallel in the pipeline.
+
+#### Initializer <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.Initializer"></a>
+
+```typescript
+import { E2ETestsStep } from 'synthetics-canaries-e2e-tests-runner'
+
+new E2ETestsStep(id: string, props: E2ETestsStepProps)
+```
+
+##### `id`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.parameter.id"></a>
+
+- *Type:* `string`
+
+---
+
+##### `props`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.parameter.props"></a>
+
+- *Type:* [`synthetics-canaries-e2e-tests-runner.E2ETestsStepProps`](#synthetics-canaries-e2e-tests-runner.E2ETestsStepProps)
+
+---
+
+#### Methods <a name="Methods"></a>
+
+##### `produceAction` <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.produceAction"></a>
+
+```typescript
+public produceAction(stage: IStage, options: ProduceActionOptions)
+```
+
+###### `stage`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.parameter.stage"></a>
+
+- *Type:* [`@aws-cdk/aws-codepipeline.IStage`](#@aws-cdk/aws-codepipeline.IStage)
+
+---
+
+###### `options`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.parameter.options"></a>
+
+- *Type:* [`@aws-cdk/pipelines.ProduceActionOptions`](#@aws-cdk/pipelines.ProduceActionOptions)
+
+---
+
+
+#### Properties <a name="Properties"></a>
+
+##### `inputsFromDeployedStack`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.property.inputsFromDeployedStack"></a>
+
+- *Type:* `any`[]
+
+---
+
+##### `stateMachine`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.property.stateMachine"></a>
+
+- *Type:* [`@aws-cdk/aws-stepfunctions.StateMachine`](#@aws-cdk/aws-stepfunctions.StateMachine)
+
+---
+
 
 

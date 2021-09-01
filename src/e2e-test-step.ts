@@ -34,7 +34,7 @@ export interface E2ETestsStepProps {
 /**
  * Run AWS Cloudwatch Canaries end to end tests in parallel in the pipeline
  */
-export default class E2ETestsStep extends cdkpipeline.Step implements cdkpipeline.ICodePipelineActionFactory {
+export class E2ETestsStep extends cdkpipeline.Step implements cdkpipeline.ICodePipelineActionFactory {
   public readonly stateMachine: sfn.StateMachine;
   public readonly inputsFromDeployedStack: any[] = [];
   constructor(id: string, props: E2ETestsStepProps) {
