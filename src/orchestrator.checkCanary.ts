@@ -26,7 +26,7 @@ exports.handler = async (event: synthetics.Canary): Promise<AWS.Synthetics.Canar
     }
   } catch (error) {
     console.error(`Something went wrong checking ${event.canaryName}: ${error}`);
-    throw new Error(error);
+    throw error;
   }
   return result;
 };
