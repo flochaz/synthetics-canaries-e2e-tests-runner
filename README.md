@@ -106,9 +106,13 @@ TODO
 Here are some examples of use cases for this construct:
 
 * **Black box e2e testing and pipelines integration**
-  * TODO
+ * Add a step to run e2e tests after a stage deployment to block your pipeline
 * **Stack e2e test to auto rollback**
  * This "resource" can be integrated directly in the main stack to make profite of auto rollback in case of failure.
+
+## Inspiration
+
+[AWS re:Invent 2020: Canaries in the code mines: Monitoring deployment pipelines](https://www.youtube.com/watch?v=IHbY897uEbQ)
 
 ## License
 
