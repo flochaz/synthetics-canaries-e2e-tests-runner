@@ -28,8 +28,8 @@ class MyPipelineStack extends cdk.Stack {
       ...
     });
     ...
-    const myApp = new MyApplication(this, 'Demo', {});
-    const demoStage = pipeline.addStage(myApp);
+    const myAppStage = new MyApplicationStage(this, 'Demo', {});
+    const demoStage = pipeline.addStage(myAppStage);
     ...
 ```
 
@@ -57,6 +57,13 @@ then you can:
       canaries: [testAPI],
       inputsFromDeployedStack: [myApp.demoApiUrlCfnOutput],
     });
+    ```
+    PS: you can access your stack outputs (Cfn Output) from your synthetics canary runtime through SSM parameter store. The construct will store all outputs given in `inputsFromDeployedStack` as parameters (under the output's ExportName key) in the account hosting the canary.
+    ```typescript
+    // In your canary
+    const AWS = require('aws-sdk');
+    const ssmClient = new AWS.SSM();
+    const url = await ssmClient.getParameter({Name: 'DemoApiUrl'}).promise();
     ```
 
 1. Add your step E2E step to your stage

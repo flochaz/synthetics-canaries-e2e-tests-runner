@@ -41,10 +41,7 @@ class MyPipelineStack extends cdk.Stack {
       scope: this,
       canaries: e2eTestsCanaries.canaries,
       inputsFromDeployedStack: [
-        {
-          name: 'URL',
-          value: myAppStage.demoApiUrlCfnOutput,
-        },
+        myAppStage.demoApiUrlCfnOutput,
       ],
     });
     demoStage.addPost(e2eTestsRunnerStep);
