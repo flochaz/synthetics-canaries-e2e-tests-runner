@@ -5,7 +5,6 @@ import { E2ETestsStep } from '../';
 import { E2ETestsCanaries } from './e2e-tests-canaries';
 const mockApp = new cdk.App();
 
-
 /**
  * Stack to hold the pipeline
  */
@@ -19,7 +18,8 @@ class MyPipelineStack extends cdk.Stack {
         // Use a connection created using the AWS console to authenticate to GitHub
         // Other sources are available.
         input: cdkpipeline.CodePipelineSource.connection('flochaz/synthetics-canaries-e2e-tests-runner', 'test', {
-          connectionArn: 'arn:aws:codestar-connections:eu-west-1:036129959679:connection/c92f72f6-1838-49f7-be70-3cd461dbb227', // Created using the AWS console
+          connectionArn:
+            'arn:aws:codestar-connections:eu-west-1:036129959679:connection/c92f72f6-1838-49f7-be70-3cd461dbb227', // Created using the AWS console
         }),
         commands: [
           'npm install -g aws-cdk',
@@ -40,18 +40,25 @@ class MyPipelineStack extends cdk.Stack {
     const e2eTestsRunnerStep = new E2ETestsStep('E2ETestsRunner', {
       scope: this,
       canaries: e2eTestsCanaries.canaries,
-      inputsFromDeployedStack: [myAppStage.demoApiUrlCfnOutput],
+      inputsFromDeployedStack: [
+        {
+          name: 'URL',
+          value: myAppStage.demoApiUrlCfnOutput,
+        },
+      ],
     });
     demoStage.addPost(e2eTestsRunnerStep);
 
     // Workaround of https://github.com/aws/aws-cdk/issues/16036
-    demoStage.addPost(new cdkpipeline.ShellStep('Force namespace setup', {
-      envFromCfnOutputs: {
-        // Make the load balancer address available as $URL inside the commands
-        URL: myAppStage.demoApiUrlCfnOutput,
-      },
-      commands: ['echo "CDK issue #16036 workaround"'],
-    }));
+    demoStage.addPost(
+      new cdkpipeline.ShellStep('Force namespace setup', {
+        envFromCfnOutputs: {
+          // Make the load balancer address available as $URL inside the commands
+          URL: myAppStage.demoApiUrlCfnOutput,
+        },
+        commands: ['echo "CDK issue #16036 workaround"'],
+      }),
+    );
   }
 }
 
@@ -115,7 +122,6 @@ class MyApplicationStage extends cdk.Stage {
       ],
     });
 
-
     const findPlayerMethodOptions = {
       methodResponses: [
         {
@@ -133,11 +139,7 @@ class MyApplicationStage extends cdk.Stage {
       ],
     };
 
-    mockedResource.addMethod(
-      'GET',
-      findPlayerMockIntegration,
-      findPlayerMethodOptions,
-    );
+    mockedResource.addMethod('GET', findPlayerMockIntegration, findPlayerMethodOptions);
 
     this.demoApiUrlCfnOutput = new cdk.CfnOutput(demoAppStack, 'DemoApiUrl', {
       value: this.demoApi.url,

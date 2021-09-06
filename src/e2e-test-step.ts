@@ -4,6 +4,7 @@ import * as sfn from '@aws-cdk/aws-stepfunctions';
 import * as synthetics from '@aws-cdk/aws-synthetics';
 import * as cdk from '@aws-cdk/core';
 import * as cdkpipeline from '@aws-cdk/pipelines';
+import { ICanaryInput } from './canaryInput';
 import { StepFunctionOrchestrator } from './orchestrator';
 
 /**
@@ -26,9 +27,9 @@ export interface E2ETestsStepProps {
    * the App under test deployed in the previous step of the code pipeline workflow
    * and that are needed by canaries to run properly.
    * Those will be pushed to AWS SSM Parameter store to be accessed by the canary at runtime
-   *  with the following name's schema: <Stack Name>.<Output name>
+   *  using the name set in the ICanaryInput.
    */
-  readonly inputsFromDeployedStack: cdk.CfnOutput[];
+  readonly inputsFromDeployedStack: ICanaryInput[];
 }
 
 /**
@@ -45,10 +46,10 @@ export class E2ETestsStep extends cdkpipeline.Step implements cdkpipeline.ICodeP
     });
 
     this.stateMachine = e2eTestsRunner.stateMachine;
-    for (const cfnOutput of props.inputsFromDeployedStack) {
-      const namespace = cdk.Stack.of(cfnOutput).artifactId;
-      const variableName = cfnOutput.exportName;
-      this.inputsFromDeployedStack.push({ name: `${namespace}.${variableName}`, value: `#{${namespace}.${variableName}}` });
+    for (const input of props.inputsFromDeployedStack) {
+      const namespace = cdk.Stack.of(input.value).artifactId;
+      const variableName = input.value.exportName;
+      this.inputsFromDeployedStack.push({ name: input.name, value: `#{${namespace}.${variableName}}` });
     }
   }
 

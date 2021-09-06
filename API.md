@@ -69,7 +69,7 @@ Array of AWS Cloudwatch canary to execute in this step.
 
 ##### `inputsFromDeployedStack`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps.property.inputsFromDeployedStack"></a>
 
-- *Type:* [`@aws-cdk/core.CfnOutput`](#@aws-cdk/core.CfnOutput)[]
+- *Type:* [`synthetics-canaries-e2e-tests-runner.ICanaryInput`](#synthetics-canaries-e2e-tests-runner.ICanaryInput)[]
 
 The potential list of CloudFormation outputs exposed by the App under test deployed in the previous step of the code pipeline workflow and that are needed by canaries to run properly.
 
@@ -170,4 +170,24 @@ public produceAction(stage: IStage, options: ProduceActionOptions)
 ---
 
 
+## Protocols <a name="Protocols"></a>
+
+### ICanaryInput <a name="synthetics-canaries-e2e-tests-runner.ICanaryInput"></a>
+
+- *Implemented By:* [`synthetics-canaries-e2e-tests-runner.ICanaryInput`](#synthetics-canaries-e2e-tests-runner.ICanaryInput)
+
+
+#### Properties <a name="Properties"></a>
+
+##### `name`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.ICanaryInput.property.name"></a>
+
+- *Type:* `string`
+
+---
+
+##### `value`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.ICanaryInput.property.value"></a>
+
+- *Type:* [`@aws-cdk/core.CfnOutput`](#@aws-cdk/core.CfnOutput)
+
+---
 
