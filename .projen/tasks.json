@@ -263,7 +263,7 @@
       "name": "integ:pipeline:synth",
       "steps": [
         {
-          "exec": "cdk synth --app=./lib/integrationTests/integ.pipeline-blocker.js"
+          "exec": "cdk synth --app=./lib/integrationTests/integ.pipeline-blocker.js --context newStyleStackSynthesis=true"
         }
       ]
     },
@@ -271,7 +271,7 @@
       "name": "integ:pipeline:deploy",
       "steps": [
         {
-          "exec": "cdk deploy --app=./lib/integrationTests/integ.pipeline-blocker.js"
+          "exec": "cdk deploy --app=./lib/integrationTests/integ.pipeline-blocker.js --context newStyleStackSynthesis=true"
         }
       ]
     },

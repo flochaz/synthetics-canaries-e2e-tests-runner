@@ -60,7 +60,7 @@ project.addTask('integ:pipeline:synth', {
   exec: 'cdk synth --app=./lib/integrationTests/integ.pipeline-blocker.js --context newStyleStackSynthesis=true',
 });
 project.addTask('integ:pipeline:deploy', {
-  exec: 'cdk deploy --app=./lib/integrationTests/integ.pipeline-blocker.js',
+  exec: 'cdk deploy --app=./lib/integrationTests/integ.pipeline-blocker.js --context newStyleStackSynthesis=true',
 });
 
 project.synth();
