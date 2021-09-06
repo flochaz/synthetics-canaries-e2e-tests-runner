@@ -46,7 +46,9 @@ export class E2ETestsStep extends cdkpipeline.Step implements cdkpipeline.ICodeP
 
     this.stateMachine = e2eTestsRunner.stateMachine;
     for (const cfnOutput of props.inputsFromDeployedStack) {
-      this.inputsFromDeployedStack.push({ name: `${cdk.Stack.of(cfnOutput).stackName}.${cfnOutput.exportName}`, value: `#{${cdk.Stack.of(cfnOutput).stackName}.${cfnOutput.exportName}}` }); // TODO: Add type
+      const namespace = cdk.Stack.of(cfnOutput).artifactId;
+      const variableName = cfnOutput.exportName;
+      this.inputsFromDeployedStack.push({ name: `${namespace}.${variableName}`, value: `#{${namespace}.${variableName}}` });
     }
   }
 

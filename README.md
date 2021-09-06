@@ -17,7 +17,7 @@ Check [API doc](./API.md) for more details.
 
 ### Integrate to CDK Pipelines
 
-Assuming you have declared your pipeline in your CDK app using cdk pipelines:
+Assuming you have declared your pipeline in your CDK app using cdk pipelines (which imply having "newStyleStackSynthesis" cdk context key to true in your `cdk.json`):
 
 ```
 class MyPipelineStack extends cdk.Stack {

@@ -6,7 +6,7 @@ const project = new AwsCdkConstructLibrary({
   defaultReleaseBranch: 'main',
   name: 'synthetics-canaries-e2e-tests-runner',
   repositoryUrl: 'https://github.com/flochaz/synthetics-canaries-e2e-tests-runner.git',
-
+  docgen: true,
   cdkDependencies: [
     '@aws-cdk/core',
     '@aws-cdk/aws-synthetics',
@@ -22,6 +22,7 @@ const project = new AwsCdkConstructLibrary({
   ],
   npmAccess: 'public',
   releaseToNpm: true,
+  cdkVersionPinning: true,
   // cdkTestDependencies: undefined,    /* AWS CDK modules required for testing. */
   // deps: ['aws-sdk'], /* Runtime dependencies of this module. */
   // description: undefined,            /* The description is just a string that helps people understand the purpose of the package. */
@@ -56,7 +57,7 @@ project.eslint.addOverride({
 });
 
 project.addTask('integ:pipeline:synth', {
-  exec: 'cdk synth --app=./lib/integrationTests/integ.pipeline-blocker.js',
+  exec: 'cdk synth --app=./lib/integrationTests/integ.pipeline-blocker.js --context newStyleStackSynthesis=true',
 });
 project.addTask('integ:pipeline:deploy', {
   exec: 'cdk deploy --app=./lib/integrationTests/integ.pipeline-blocker.js',

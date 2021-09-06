@@ -2,7 +2,7 @@
   "dependencies": [
     {
       "name": "@aws-cdk/assert",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "build"
     },
     {
@@ -100,57 +100,57 @@
     },
     {
       "name": "@aws-cdk/aws-apigateway",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-codepipeline-actions",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-codepipeline",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-datapipeline",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-iam",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-lambda-nodejs",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-stepfunctions-tasks",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-stepfunctions",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-synthetics",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/pipelines",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "peer"
     },
     {
@@ -160,57 +160,57 @@
     },
     {
       "name": "@aws-cdk/aws-apigateway",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-codepipeline-actions",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-codepipeline",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-datapipeline",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-iam",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-lambda-nodejs",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-stepfunctions-tasks",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-stepfunctions",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-synthetics",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/pipelines",
-      "version": "^1.118.0",
+      "version": "1.118.0",
       "type": "runtime"
     }
   ],

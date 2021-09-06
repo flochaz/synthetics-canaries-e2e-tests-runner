@@ -33,14 +33,14 @@ class MyPipelineStack extends cdk.Stack {
     // 'MyApplication' is defined below. Call `addStage` as many times as
     // necessary with any account and region (may be different from the
     // pipeline's).
-    const myApp = new MyApplication(this, 'Demo', {});
-    const demoStage = pipeline.addStage(myApp);
+    const myAppStage = new MyApplicationStage(this, 'Demo', {});
+    const demoStage = pipeline.addStage(myAppStage);
 
     const e2eTestsCanaries = new E2ETestsCanaries(this, 'E2ETestsCanaries');
     const e2eTestsRunnerStep = new E2ETestsStep('E2ETestsRunner', {
       scope: this,
       canaries: e2eTestsCanaries.canaries,
-      inputsFromDeployedStack: [myApp.demoApiUrlCfnOutput],
+      inputsFromDeployedStack: [myAppStage.demoApiUrlCfnOutput],
     });
     demoStage.addPost(e2eTestsRunnerStep);
 
@@ -48,7 +48,7 @@ class MyPipelineStack extends cdk.Stack {
     demoStage.addPost(new cdkpipeline.ShellStep('Force namespace setup', {
       envFromCfnOutputs: {
         // Make the load balancer address available as $URL inside the commands
-        URL: myApp.demoApiUrlCfnOutput,
+        URL: myAppStage.demoApiUrlCfnOutput,
       },
       commands: ['echo "CDK issue #16036 workaround"'],
     }));
@@ -63,7 +63,7 @@ class MyPipelineStack extends cdk.Stack {
  * By declaring our DatabaseStack and our ComputeStack inside a Stage,
  * we make sure they are deployed together, or not at all.
  */
-class MyApplication extends cdk.Stage {
+class MyApplicationStage extends cdk.Stage {
   public readonly demoApi: apigateway.RestApi;
   public readonly demoApiUrlCfnOutput: cdk.CfnOutput;
 
