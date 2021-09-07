@@ -85,7 +85,7 @@ export class E2ETestsCanaries extends cdk.Construct {
 
           const headers = {}
           headers['User-Agent'] = [synthetics.getCanaryUserAgentString(), headers['User-Agent']].join(' ');
-          const url = await ssmClient.getParameter({Name: 'Demo-testing-stack.DemoApiUrl'}).promise();
+          const url = await ssmClient.getParameter({Name: 'DemoApiUrl'}).promise();
           const requestOptions = {"hostname":url.Parameter.Value.split('/')[2],"method":"GET","path":"/prod/users/${userId}","port":443}
           log.info(\`requestOptions \${requestOptions}\`);
           requestOptions['headers'] = headers;
