@@ -8,7 +8,7 @@ Run and Evaluate AWS Cloudwatch Canaries parallel with AWS Step Functions.
 
 State machine's execution will fail if any of the canaries fail but it will wait for all to run before failing.
 
-#### Initializer <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestrator.Initializer"></a>
+#### Initializers <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestrator.Initializer"></a>
 
 ```typescript
 import { StepFunctionOrchestrator } from 'synthetics-canaries-e2e-tests-runner'
@@ -40,6 +40,10 @@ new StepFunctionOrchestrator(scope: Construct, id: string, props: StepFunctionOr
 
 ##### `stateMachine`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestrator.property.stateMachine"></a>
 
+```typescript
+public readonly stateMachine: StateMachine;
+```
+
 - *Type:* [`@aws-cdk/aws-stepfunctions.StateMachine`](#@aws-cdk/aws-stepfunctions.StateMachine)
 
 ---
@@ -61,6 +65,10 @@ const e2ETestsStepProps: E2ETestsStepProps = { ... }
 
 ##### `canaries`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps.property.canaries"></a>
 
+```typescript
+public readonly canaries: Canary[];
+```
+
 - *Type:* [`@aws-cdk/aws-synthetics.Canary`](#@aws-cdk/aws-synthetics.Canary)[]
 
 Array of AWS Cloudwatch canary to execute in this step.
@@ -68,6 +76,10 @@ Array of AWS Cloudwatch canary to execute in this step.
 ---
 
 ##### `inputsFromDeployedStack`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps.property.inputsFromDeployedStack"></a>
+
+```typescript
+public readonly inputsFromDeployedStack: CfnOutput[];
+```
 
 - *Type:* [`@aws-cdk/core.CfnOutput`](#@aws-cdk/core.CfnOutput)[]
 
@@ -79,6 +91,10 @@ Those will be pushed to AWS SSM Parameter store to be accessed by the canary at 
 ---
 
 ##### `scope`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStepProps.property.scope"></a>
+
+```typescript
+public readonly scope: Construct;
+```
 
 - *Type:* [`@aws-cdk/core.Construct`](#@aws-cdk/core.Construct)
 
@@ -100,6 +116,10 @@ const stepFunctionOrchestratorProps: StepFunctionOrchestratorProps = { ... }
 
 ##### `canaries`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.StepFunctionOrchestratorProps.property.canaries"></a>
 
+```typescript
+public readonly canaries: Canary[];
+```
+
 - *Type:* [`@aws-cdk/aws-synthetics.Canary`](#@aws-cdk/aws-synthetics.Canary)[]
 
 Array of AWS Cloudwatch canary to execute.
@@ -114,7 +134,7 @@ Array of AWS Cloudwatch canary to execute.
 
 Run AWS Cloudwatch Canaries end to end tests in parallel in the pipeline.
 
-#### Initializer <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.Initializer"></a>
+#### Initializers <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.Initializer"></a>
 
 ```typescript
 import { E2ETestsStep } from 'synthetics-canaries-e2e-tests-runner'
@@ -159,11 +179,19 @@ public produceAction(stage: IStage, options: ProduceActionOptions)
 
 ##### `inputsFromDeployedStack`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.property.inputsFromDeployedStack"></a>
 
+```typescript
+public readonly inputsFromDeployedStack: any[];
+```
+
 - *Type:* `any`[]
 
 ---
 
 ##### `stateMachine`<sup>Required</sup> <a name="synthetics-canaries-e2e-tests-runner.E2ETestsStep.property.stateMachine"></a>
+
+```typescript
+public readonly stateMachine: StateMachine;
+```
 
 - *Type:* [`@aws-cdk/aws-stepfunctions.StateMachine`](#@aws-cdk/aws-stepfunctions.StateMachine)
 
