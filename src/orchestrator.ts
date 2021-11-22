@@ -22,6 +22,9 @@ const WAIT_TIME_BETWEEN_CANARY_RUN_CHECK_CALL_IN_SENCONDS = 10;
 /**
  * Run and Evaluate AWS Cloudwatch Canaries parallel with AWS Step Functions.
  * State machine's execution will fail if any of the canaries fail but it will wait for all to run before failing.
+ * <img src="../../doc/integ.pipeline-blocker-sfn.png" alt="sfn screenshot">
+ * <img src="https://raw.githubusercontent.com/flochaz/synthetics-canaries-e2e-tests-runner/HEAD/doc/integ.pipeline-blocker-sfn.png" alt="sfn screenshot2">
+ * ![sfn screenshot3](../../doc/integ.pipeline-blocker-sfn.png" alt="sfn screenshot)
  */
 export class StepFunctionOrchestrator extends cdk.Construct {
   public readonly stateMachine: sfn.StateMachine;
